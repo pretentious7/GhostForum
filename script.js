@@ -4,6 +4,9 @@ let id;
 peer.on('open', function(id) {
 	console.log('My peer ID is: ' + id);
 	return id
+var db = firebase.firestore();
+db.collection("peerjs_ids").add({
+	id: id 
 });
 
 console.log('HW');
