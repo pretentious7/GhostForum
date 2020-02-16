@@ -1,7 +1,7 @@
 var peer = new Peer({key: 'lwjd5qra8257b9'});
 var db = firebase.firestore();
 let id;
-
+//df
 peer.on('open', function(id) {
 	console.log('My peer ID is: ' + id);
 	db.collection("peerjs_ids").doc("id_n").set({
