@@ -50,6 +50,7 @@ body{
     width: 46%;
     border: solid;
     border-radius: 5px;
+    margin-bottom: 0.25em;
 }
 
 form>input{
