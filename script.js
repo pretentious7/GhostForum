@@ -35,7 +35,6 @@ docRef.get().then(function(doc) {
     if (doc.exists) {
         console.log("Document data cha:", doc.data());
 	peerid = doc.data().id;
-	communicator();
     } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -44,25 +43,27 @@ docRef.get().then(function(doc) {
     console.log("Error getting document:", error);
 });
 
-document.getElementById("butt").onclick(communicator());
-function communicator(){
+//document.getElementById("butt").onclick(SendData(initString,conn));
+var commFuncHolder = function communicator(){
 
 var conn = peer.connect(String(peerid));
+conn.on('open', SendData(initString, conn));
+peer.on('connection', function(conn) {ReceiveData(initString, conn); console.log('callback');});
 console.log(conn);
 //var conn = peer.connect("q2uh5qbgjnc00000");
 
-conn.on('open', function() {
-  // Receive messages
-  conn.on('data', function(data) {
-    console.log('Received', data);
-  });
-
-  console.log("hurray");
-  // Send messages
-  conn.send('Hello!');
-  conn.send(initString);
-  //document.getElementById("butt").onclick(conn.send(initString));
-});
+//conn.on('open', function() {
+//  // Receive messages
+//  conn.on('data', function(data) {
+//    console.log('Received', data);
+//  });
+//
+//  console.log("hurray");
+//  // Send messages
+//  conn.send('Hello!');
+//  conn.send(initString);
+//  //document.getElementById("butt").onclick(conn.send(initString));
+//});
 
 peer.on('connection', function(comm){
 	console.log("connected to" + comm.peer);
@@ -80,7 +81,7 @@ peer.on('connection', function(comm){
 	  comm.send('Hello!');
 });
 
-});}
+});}()
 	comm.on('open', function() {
 	  // Receive messages
 	  console.log('confirmedbachelor');
@@ -91,3 +92,4 @@ peer.on('connection', function(comm){
 	  // Send messages
 	  comm.send('Hello!');
 });
+console.log("communism");
