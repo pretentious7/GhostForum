@@ -7,7 +7,7 @@ function SendData(DataObject, Connection){
 	
 }
 
-function ReceiveData(DataObject, Connection){
+function ReceiveData(Connection){
 	//function to RECEIVE forum array from specified connection
 	//Uses peerjs api's (basically copied from documentation examples)
 	//possible improvements with promises and callbacks?
@@ -16,6 +16,7 @@ function ReceiveData(DataObject, Connection){
 		DataObject = Data;
 		console.log('DataObject is assigned');
 	});
+	return DataObject;
 }
 
 function NewPeerConnection(peerid){
@@ -35,5 +36,6 @@ function NewPeerConnection(peerid){
 		});
 
 	});
+	//have some way to account for error in return here.
 }
 
