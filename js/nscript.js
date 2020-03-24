@@ -36,7 +36,7 @@ class FirebaseDoc {
 var db = firebase.firestore();
 var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
 var peeridno;
-var connection;
+var conn;
 
 //so now get it to pull previous peer
 
@@ -46,7 +46,7 @@ peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	idDoc.GetData(function(data){
 		peeridno = data
-		connection = peer.connect(peeridno.id);
+		conn= peer.connect(peeridno.id);
 		idDoc.SetData({id : id});
 		});
 	
@@ -55,10 +55,12 @@ peer.on('open', function(id){
 peer.on('connection', function(conn){
 	conn.on('open', function() {
 		console.log('communism');
+		conn.send('hello');
 		conn.on('data', function(data){
+			console.log('communism part 2');
 			console.log('Received', data);
 		});
+		
 	});
 	
-	conn.send('hello')
 });
