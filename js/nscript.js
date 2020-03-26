@@ -36,23 +36,16 @@ class FirebaseDoc {
 var db = firebase.firestore();
 var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
 var peeridno;
-var conn;
+var conner;
+var connection;
 
 //so now get it to pull previous peer
 
 //this opens new peer for current peer
 var peer = new Peer({key: 'lwjd5qra8257b9'});
-peer.on('open', function(id){
-	console.log('My peer ID is: ' + id);
-	idDoc.GetData(function(data){
-		peeridno = data
-		conn= peer.connect(peeridno.id);
-		idDoc.SetData({id : id});
-		});
-	
-});
 
 peer.on('connection', function(conn){
+	conner = conn;
 	conn.on('open', function() {
 		console.log('communism');
 		conn.send('hello');
@@ -64,3 +57,20 @@ peer.on('connection', function(conn){
 	});
 	
 });
+peer.on('open', function(id){
+	console.log('My peer ID is: ' + id);
+	idDoc.GetData(function(data){
+		peeridno = data
+		connection= peer.connect(peeridno.id);
+		connection.on('open', function(){
+			console.log('thisisboi');
+			connection.on('data', function(data){
+				console.log('Received',data);
+			});
+		});
+
+		idDoc.SetData({id : id});
+		});
+	
+});
+
