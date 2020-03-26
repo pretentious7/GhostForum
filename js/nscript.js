@@ -48,10 +48,11 @@ peer.on('connection', function(conn){
 	conner = conn;
 	conn.on('open', function() {
 		console.log('communism');
-		conn.send('hello');
+		//conn.send('hello');
 		conn.on('data', function(data){
 			console.log('communism part 2');
 			console.log('Received', data);
+			initString = data;
 		});
 		
 	});
@@ -66,6 +67,7 @@ peer.on('open', function(id){
 			console.log('thisisboi');
 			connection.on('data', function(data){
 				console.log('Received',data);
+				initString = data;
 			});
 		});
 

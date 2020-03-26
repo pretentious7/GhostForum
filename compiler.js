@@ -106,12 +106,13 @@ function dateCalc() {
 }
 
 function sendMessage(){
-	if(typeof conner !== undefined){
+	if(typeof conner !== 'undefined'){
 		conner.send(initString);
 	}
-	if(typeof connection !== undefined){
+	if(typeof connection !== 'undefined'){
 			connection.send(initString);
 	}
+	
 }
 	
 
