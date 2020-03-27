@@ -1,4 +1,4 @@
-let initString = ['HOW|I|THIS|WORKING', 'CHADLEY|Hello World!|REPLIES 0|yoooo', 'ABHISHEK|TWO|REPLIES 18|asdfasdf', 'OJ|BOI|REPLIES 24|asdfhc', 'OJJJ|BBBBBBBBB|REPLIES 24|HHHHHHHH']
+let initString = ['GhostForum|Welcome to GhostForum|REPLIES 0|4:20']
 let receiveShit = [];
 let cycles;
 let selfPost = []
@@ -14,7 +14,7 @@ function generateDOM() {
         divide[i].innerHTML = populateText[i]
         document.body.append(divide[i])
     }
-    localStorage.clear()
+    //localStorage.clear()
     receiveText()
     pushPost()
     updateFeed()
