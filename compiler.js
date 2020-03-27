@@ -4,15 +4,16 @@ var initStringObj = {init : initString};
 let receiveShit = [];
 let cycles;
 let selfPost = []
+
 //so this proxy thing listens for changes in initstring and rebroadcasts over serialnet.
 var initStringProxy = new Proxy(initStringObj, {
 	  set: function (target, key, value) {
 		        target[key] = value;
-		  	console.log(initStringObj.init);
+		  	console.log('sweet dreams', initStringObj.init);
 		  	sendMessage();
-		  	//receiveText();
-		  	storePost();
-		  	updateFeed();
+		  	receiveText();
+		  	//storePost();
+		 	updateFeed(); 
 		        return true;
 		    }
 });
