@@ -28,6 +28,7 @@ function receiveText() {
             cycles = 4 * i + j
         }
     }
+	//cycles = 4*initString.length+3;
 }
 
 function pushPost() {
@@ -43,14 +44,17 @@ function pushPost() {
     var z = document.createElement("INPUT");
     z.setAttribute("id", "butt")
     z.setAttribute("type", "submit");
-    z.setAttribute("onclick", "storePost()")
+    z.setAttribute("onclick", "storePost(); sendMessage();") //communicator sends. so peer.send here.
     z.setAttribute("value", "Post!");
     document.getElementById("posting").appendChild(z);
     $('input:text').click(
         function () {
             $(this).val('');
     });
-    
+    if (typeof(conn) !== 'undefined'){
+	conn.send(initString);
+}
+
 }
 
 function storePost() {
@@ -99,4 +103,14 @@ function dateCalc() {
     var year = currentDate.getFullYear();
     var dateString = date + "-" + (month + 1) + "-" + year;
     return dateString;
+}
+
+function sendMessage(){
+	if(typeof conner !== 'undefined'){
+		conner.send(initString);
+	}
+	if(typeof connection !== 'undefined'){
+			connection.send(initString);
+	}
+	
 }
