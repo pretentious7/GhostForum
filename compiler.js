@@ -11,9 +11,9 @@ var initStringProxy = new Proxy(initStringObj, {
 		        target[key] = value;
 		  	console.log('sweet dreams', initStringObj.init);
 		  	sendMessage();
-		  	receiveText();
-		  	//storePost();
-		 	updateFeed(); 
+		  	//receiveText();
+		  	arbitraryStorePost();
+		 	//updateFeed(); 
 		        return true;
 		    }
 });
@@ -84,6 +84,12 @@ function storePost() {
     document.getElementById("container").innerHTML = "";
     updateFeed()
 
+}
+
+function arbitraryStorePost(){
+    receiveText()
+    document.getElementById("container").innerHTML = "";
+    updateFeed()
 }
 
 function updateFeed() {
