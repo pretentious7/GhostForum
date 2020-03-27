@@ -1,5 +1,31 @@
 //let initString = ['HOW|I|THIS|WORKING', 'CHADLEY|Hello World!|REPLIES 0|yoooo', 'ABHISHEK|TWO|REPLIES 18|asdfasdf', 'OJ|BOI|REPLIES 24|asdfhc', 'OJJJ|BBBBBBBBB|REPLIES 24|HHHHHHHH']
-let initString = ['HOW|I|THIS|WORKING']
+
+function localStoreToString() {
+		//takes localstorage into string and returns it, returns false if
+		//nothing there in localstorage
+		var i = 0;
+		var initString=[];
+		console.log(localStorage.getItem('pos453'));
+		if(localStorage.getItem('pos0') === null ){ return false;}
+		while(localStorage.getItem('pos'+i) !== null ){
+				initString.push("");
+				for(j = 0 ; j < 4; j++) {
+					initString[i] += localStorage.getItem('pos' + eval(4 * i + j));
+				}
+				i++;
+		}
+		return initString;
+}
+var checker = localStoreToString();
+let initString;
+if(!checker){
+		initString = ['HOW|I|THIS|WORKING'];
+}
+else{
+		initString = localStoreToString();
+}
+
+console.log(initString);
 var initStringObj = {init : initString};
 let receiveShit = [];
 let cycles;
@@ -46,6 +72,8 @@ function receiveText() {
     }
 	//cycles = 4*initString.length+3;
 }
+
+
 
 function pushPost() {
     var x = document.createElement("FORM");
