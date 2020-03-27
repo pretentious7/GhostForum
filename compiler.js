@@ -1,7 +1,22 @@
-let initString = ['HOW|I|THIS|WORKING', 'CHADLEY|Hello World!|REPLIES 0|yoooo', 'ABHISHEK|TWO|REPLIES 18|asdfasdf', 'OJ|BOI|REPLIES 24|asdfhc', 'OJJJ|BBBBBBBBB|REPLIES 24|HHHHHHHH']
+//let initString = ['HOW|I|THIS|WORKING', 'CHADLEY|Hello World!|REPLIES 0|yoooo', 'ABHISHEK|TWO|REPLIES 18|asdfasdf', 'OJ|BOI|REPLIES 24|asdfhc', 'OJJJ|BBBBBBBBB|REPLIES 24|HHHHHHHH']
+let initString = ['HOW|I|THIS|WORKING']
+var initStringObj = {init : initString};
 let receiveShit = [];
 let cycles;
 let selfPost = []
+//so this proxy thing listens for changes in initstring and rebroadcasts over serialnet.
+var initStringProxy = new Proxy(initStringObj, {
+	  set: function (target, key, value) {
+		        target[key] = value;
+		  	console.log(initStringObj.init);
+		  	sendMessage();
+		  	//receiveText();
+		  	storePost();
+		  	updateFeed();
+		        return true;
+		    }
+});
+
 
 function generateDOM() {
     let divide = []
@@ -14,15 +29,15 @@ function generateDOM() {
         divide[i].innerHTML = populateText[i]
         document.body.append(divide[i])
     }
-    localStorage.clear()
+    //localStorage.clear()
     receiveText()
     pushPost()
     updateFeed()
 }
 
 function receiveText() {
-    for (var i = 0; i < initString.length; i++) {
-        receiveShit[i] = initString[i].split("|")
+    for (var i = 0; i < initStringObj.init.length; i++) {
+        receiveShit[i] = initStringObj.init[i].split("|")
         for (j = 0; j < 4; j++) {
             localStorage.setItem('pos' + eval(4 * i + j), JSON.stringify(receiveShit[i][j]))
             cycles = 4 * i + j
@@ -61,7 +76,7 @@ function storePost() {
     localStorage.setItem('response', 'Hello')
     var input = document.getElementById('userInput').value;
     input2 = input + '|REPLIES 0' + '|' + dateCalc()
-    initString.unshift(input2)
+    initStringObj.init.unshift(input2)
     console.log(input2)
     console.log(initString)
     receiveText()
@@ -107,10 +122,10 @@ function dateCalc() {
 
 function sendMessage(){
 	if(typeof conner !== 'undefined'){
-		conner.send(initString);
+		conner.send(initStringObj.init);
 	}
 	if(typeof connection !== 'undefined'){
-			connection.send(initString);
+		connection.send(initStringObj.init);
 	}
 	
 }

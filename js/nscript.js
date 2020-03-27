@@ -31,8 +31,11 @@ class FirebaseDoc {
 	}
 }
 
-		
-	
+//function to check if array contains another array
+let ArrIncludes = (arr, target) => target.every(v => arr.includes(v));
+//function to expand array with everything not in it from other array.
+let ArrExpand = (arr, target) => target.every(v => {if(!arr.includes(v)) arr.unshift(v)})
+
 var db = firebase.firestore();
 var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
 var peeridno;
@@ -52,7 +55,12 @@ peer.on('connection', function(conn){
 		conn.on('data', function(data){
 			console.log('communism part 2');
 			console.log('Received', data);
-			initString = data;
+			if(!ArrIncludes(initStringObj.init, data)){
+				//initStringProxy.init = data;
+				ArrExpand(initStringObj.init, data); 
+				initStringProxy.init = initStringObj.init;
+				console.log(initStringObj.init);
+			}
 		});
 		
 	});
@@ -67,7 +75,12 @@ peer.on('open', function(id){
 			console.log('thisisboi');
 			connection.on('data', function(data){
 				console.log('Received',data);
-				initString = data;
+				if(!ArrIncludes(initStringObj.init, data)){
+					//initStringProxy.init = data;
+					ArrExpand(initStringProxy.init, data); 
+					initStringProxy.init = initStringObj.init;
+					console.log(initStringObj.init);
+				}
 			});
 		});
 
