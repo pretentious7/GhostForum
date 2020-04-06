@@ -1,29 +1,11 @@
 //let initString = ['HOW|I|THIS|WORKING', 'CHADLEY|Hello World!|REPLIES 0|yoooo', 'ABHISHEK|TWO|REPLIES 18|asdfasdf', 'OJ|BOI|REPLIES 24|asdfhc', 'OJJJ|BBBBBBBBB|REPLIES 24|HHHHHHHH']
 
-function localStoreToString() {
-		//takes localstorage into string and returns it, returns false if
-		//nothing there in localstorage
-		var i = 0;
-		var initString=[];
-		console.log(localStorage.getItem('pos453'));
-		if(localStorage.getItem('pos0') === null ){ return false;}
-		while(localStorage.getItem('pos'+i) !== null ){
-				initString.push("");
-				for(j = 0 ; j < 4; j++) {
-					initString[i] += localStorage.getItem('pos' + eval(4 * i + j));
-				}
-				i++;
-		}
-		return initString;
-}
-var checker = localStoreToString();
 let initString;
-if(!checker){
-		initString = ['HOW|I|THIS|WORKING'];
+if(localStorage.getItem('initString') !== null){
+		initString =localStorage.getItem('initString').split(',');
 }
-else{
-		initString = localStoreToString();
-}
+else initString = ['Made with Love | By Ojasvin Kirpane & Abhishek Cherath | ha | ha'];
+//initString = ['How|I|this|work'];
 
 console.log(initString);
 var initStringObj = {init : initString};
@@ -66,7 +48,8 @@ function receiveText() {
     for (var i = 0; i < initStringObj.init.length; i++) {
         receiveShit[i] = initStringObj.init[i].split("|")
         for (j = 0; j < 4; j++) {
-            localStorage.setItem('pos' + eval(4 * i + j), JSON.stringify(receiveShit[i][j]))
+            //localStorage.setItem('pos' + eval(4 * i + j), JSON.stringify(receiveShit[i][j]))
+            localStorage.setItem('pos' + eval(4 * i + j), receiveShit[i][j])
             cycles = 4 * i + j
         }
     }
@@ -129,7 +112,8 @@ function updateFeed() {
     document.body.append(container)
 
     for (i = 0; i < cycles; i++) {
-        postText[i] = JSON.parse(localStorage.getItem("pos" + i))
+        //postText[i] = JSON.parse(localStorage.getItem("pos" + i))
+        postText[i] = localStorage.getItem("pos" + i)
     }
     for (x = 0; x <= cycles / 4; x++) {
         postContain[i] = document.createElement('div')
@@ -144,6 +128,8 @@ function updateFeed() {
             document.getElementById("postContainer"+x).appendChild(posts[i]);   
         }
     }
+	//stores for future instance in localstorage everythin
+	localStorage.setItem('initString', initStringObj.init);
 }
 
 function dateCalc() {
