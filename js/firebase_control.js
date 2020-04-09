@@ -3,17 +3,18 @@
 class FirebaseDoc {
 	constructor(docId,CollectionId,db ){
 		this.docId = docId;
-		console.log(this.docId);
 		this.CollectionId = CollectionId;
 		this.db = db;
 		this.docad = db.collection(docId).doc(CollectionId);//try renaming docad here
 	}	
 	
-	GetData(){
+	GetData(callback){
+		var data;
 		this.docad.get().then(function(doc) {
 		    if (doc.exists) {
 			console.log("Document data:", doc.data());
-			return doc.data()
+			callback(doc.data());
+			return
 		    } else {
 			// doc.data() will be undefined in this case
 			console.log("No such document!");
@@ -25,10 +26,10 @@ class FirebaseDoc {
 	
 	SetData(data){
 		//should this be in a kinda promise structure?
-		docad.set(data); // for this thing, it's {id: peer_id} 
+		this.docad.set(data); // for this thing, it's {id: peer_id} 
 		
 	}
 }
 
-		
+global.FirebaseDoc = FirebaseDoc;
 	
