@@ -6,6 +6,20 @@ class FirebaseDoc {
 		this.CollectionId = CollectionId;
 		this.db = db;
 		this.docad = db.collection(docId).doc(CollectionId);//try renaming docad here
+		this.docad.get().then(doc => {
+			if (doc.exists){}
+			else{
+				doc.set({
+					id : 'undefined'
+				})
+				.then(function() {
+					    console.log("Document successfully written!");
+				})
+				.catch(function(error) {
+					    console.error("Error writing document: ", error);
+				});
+			}
+		})
 	}	
 	
 	GetData(callback){
@@ -33,13 +47,17 @@ class FirebaseDoc {
 
 	
 //get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
+//so this code here gets path and makes new forum with that path in firebase.
+var pathname = window.location.pathname;
+console.log(String(pathname));
 //function to check if array contains another array
 let ArrIncludes = (arr, target) => target.every(v => arr.includes(v));
 //function to expand array with everything not in it from other array.
 let ArrExpand = (arr, target) => target.forEach(v => {if(!arr.includes(v)) arr.unshift(v)})
 
 var db = firebase.firestore();
-var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
+//var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
+var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
 var peeridno;
 var conner;
 var connection;
@@ -51,6 +69,7 @@ var connection;
 let peer;
 if(typeof localStorage.getItem("peerid") !== 'undefined'){
 	peer = new Peer(localStorage.getItem("peerid"));
+//	peer = new Peer();
 }
 else{
 	peer = new Peer();

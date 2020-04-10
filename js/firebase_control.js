@@ -6,6 +6,20 @@ class FirebaseDoc {
 		this.CollectionId = CollectionId;
 		this.db = db;
 		this.docad = db.collection(docId).doc(CollectionId);//try renaming docad here
+		this.docad.get().then(doc => {
+			if (doc.exists){}
+			else{
+				doc.set({
+					id : 'undefined'
+				})
+				.then(function() {
+					    console.log("Document successfully written!");
+				})
+				.catch(function(error) {
+					    console.error("Error writing document: ", error);
+				});
+			}
+		})
 	}	
 	
 	GetData(callback){
