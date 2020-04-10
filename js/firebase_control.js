@@ -9,7 +9,7 @@ class FirebaseDoc {
 		this.docad.get().then(doc => {
 			if (doc.exists){}
 			else{
-				doc.set({
+				this.docad.set({
 					id : 'undefined'
 				})
 				.then(function() {

@@ -9,7 +9,7 @@ class FirebaseDoc {
 		this.docad.get().then(doc => {
 			if (doc.exists){}
 			else{
-				doc.set({
+				this.docad.set({
 					id : 'undefined'
 				})
 				.then(function() {
@@ -61,15 +61,15 @@ var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
 var peeridno;
 var conner;
 var connection;
-
+console.log(idDoc);
 //so now get it to pull previous peer
 
 //this opens new peer for current peer
 //var peer = new Peer({key: 'lwjd5qra8257b9'});
 let peer;
 if(typeof localStorage.getItem("peerid") !== 'undefined'){
-	peer = new Peer(localStorage.getItem("peerid"));
-//	peer = new Peer();
+//	peer = new Peer(localStorage.getItem("peerid"));
+	peer = new Peer();
 }
 else{
 	peer = new Peer();

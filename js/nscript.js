@@ -13,7 +13,7 @@ var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
 var peeridno;
 var conner;
 var connection;
-
+console.log(idDoc);
 //so now get it to pull previous peer
 
 //this opens new peer for current peer
