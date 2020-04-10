@@ -29,7 +29,7 @@ var initStringProxy = new Proxy(initStringObj, {
 
 function generateDOM() {
     let divide = []
-    let pageTitle = 'CEWITs Funky Forum'
+    let pageTitle = String(window.location.pathname).substr(1);
     let populateText = ['GhostForum', pageTitle, 'Type your message in the following format:']
 
     for (i = 0; i < 3; i++) {
