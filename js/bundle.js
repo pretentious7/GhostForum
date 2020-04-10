@@ -68,8 +68,8 @@ console.log(idDoc);
 //var peer = new Peer({key: 'lwjd5qra8257b9'});
 let peer;
 if(typeof localStorage.getItem("peerid") !== 'undefined'){
-//	peer = new Peer(localStorage.getItem("peerid"));
-	peer = new Peer();
+	peer = new Peer(localStorage.getItem("peerid"));
+//	peer = new Peer();
 }
 else{
 	peer = new Peer();
