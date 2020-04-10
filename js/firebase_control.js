@@ -31,5 +31,4 @@ class FirebaseDoc {
 	}
 }
 
-global.FirebaseDoc = FirebaseDoc;
 	
