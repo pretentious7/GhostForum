@@ -144,6 +144,7 @@ function dateCalc() {
 function sendMessage(){
 	if(typeof conner !== 'undefined'){
 		conner.send(initStringObj.init);
+		console.log(conner);
 	}
 	if(typeof connection !== 'undefined'){
 		connection.send(initStringObj.init);
