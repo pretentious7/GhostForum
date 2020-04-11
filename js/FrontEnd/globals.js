@@ -38,6 +38,7 @@ console.log(idDoc);
 let peer;
 var forumName = String(pathname).substr(1);
 let GhostForum;
+
 if(localStorage.getItem('GhostForum') !== null){	
 	GhostForum = localStorage.getItem('GhostForum');
 }

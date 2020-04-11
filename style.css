@@ -1,78 +1,65 @@
-@font-face {
-    font-family: Graphik-Light;
-    src: url("./R/Graphik-Light.otf") format("opentype");
-}
-@font-face {
-    font-family: Graphik-Bold;
-    src: url("./R/Graphik-Bold.otf") format("opentype");
-}
-@font-face {
-    font-family: Graphik-Regular;
-    src: url("./R/Graphik-Regular.otf") format("opentype");
-}
 body{
-    font-family: Graphik-Regular;
-    font-size: 1.5em;
-    margin: none;
-    padding: none;
-    background-color: #FFFDF5;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+	margin: none;
+	padding: none;
+	background-color: #FFFDF5;
 }
 
 /* title */
 #title0{
-    margin-top: 1.25em;
-    margin-left: 2.50em;
-    margin-left: 1.25em;
-    margin-bottom: 3.125em;
+	margin-top: 1.25em;
+	margin-left: 2.50em;
+	margin-left: 1.25em;
+	margin-bottom: 3.125em;
 }
 #title1{
-    width: 40%;
-    font-size: 200%;
-    margin-left: 25%;
-    margin-bottom: 1em;
+	width: 40%;
+	font-size: 200%;
+	margin-left: 25%;
+	margin-bottom: 1em;
 }
 #title2{
-    margin-left: 25%;
-    font-size: 0.5em;
-    margin-bottom: 1em;
+	margin-left: 25%;
+	font-size: 0.5em;
+	margin-bottom: 1em;
 }
 #butt{
-    margin-top: 0.5%;
-    background-color: black;
-    color: #FFFDF5;
+	margin-top: 0.5%;
+	background-color: black;
+	color: #FFFDF5;
 }
 #butt:hover{
-    background-color: rgba(121, 62, 62, 0.541);
+	background-color: rgba(121, 62, 62, 0.541);
 }
 #postContainer{
-    margin-left: 25%;
-    padding: 1em;
-    width: 46%;
-    border: solid;
-    border-radius: 5px;
-    margin-bottom: 0.25em;
+	margin-left: 25%;
+	padding: 1em;
+	width: 46%;
+	border: solid;
+	border-radius: 5px;
+	margin-bottom: 0.25em;
 }
 
 form>input{
-    margin-left: 25%;
-    padding: 1em;
-    width: 50%;
-    border: solid;
-    border-radius: 5px;
-    background-color: #FFFDF5;
+	margin-left: 25%;
+	padding: 1em;
+	width: 50%;
+	border: solid;
+	border-radius: 5px;
+	background-color: #FFFDF5;
 }
 #text0{
-    font-size: 0.4em;
-    margin-bottom: 1em;
+	font-size: 0.4em;
+	margin-bottom: 1em;
 }
 #text1{
-    font-size: 0.8em;
+	font-size: 0.8em;
 }
 #text2, #text3{
-    margin-right: 5%;
-    margin-top: 1em;
-    font-size: 0.4em;
-    display: inline-block;
+	margin-right: 5%;
+	margin-top: 1em;
+	font-size: 0.4em;
+	display: inline-block;
 }
-
 
