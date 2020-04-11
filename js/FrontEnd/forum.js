@@ -14,18 +14,69 @@
 //  }
 //}
 
-class Post {
-	constructor(eventID, msgtype, content){
-		this.eventID = eventID;
-		this.msgtype = msgtype;
-		this.content = content
-	}
-
+var GhostForum = {
+	fora : []
+};
+			
+let IncludesForum = (forum) => GhostForum.fora.some(v => v.myPeerId === forum.myPeerId);
 
 class Forum {
-	constructor(signallingDoc){
-		this.url = signallingDoc.url;
-		this.post 
-var Forum = new Object();
+	constructor(signalDoc){
+		this.metaData = {
+			myPeerId : '',
+			peersPeerIds : [],
+			signalDoc : signalDoc
+		};
 
+		this.data = {
+			posts :  []
+		};
+	}
 
+	toString(){
+		return JSON.stringify(this);
+	}
+}
+
+function postConstruct(u, i){
+	//u is username, i is content object (insides)
+	let transID = Math.floor(Math.random()*16777215).toString(16);
+	let roomID = Math.floor(Math.random()*16777215).toString(16);
+	var postObj = {
+			origin_server_ts: '',
+			sender: '@' + u + ':ghostforum.tech',
+			unsigned: {
+				age: 'x',
+				transaction_id: transID
+						},
+			content: {
+				body: String(i),
+				msgtype: 'm.text'
+						},
+			type: 'm.room.message',
+			room_id: String(window.location.pathname)+roomID //put page title (from url) here
+			}
+	//postObj = JSON.stringify(post);
+	//console.log(postObj)
+	return postObj;
+}
+
+class Post{
+	constructor(username,innards){
+		this.content = postConstruct(username, innards);
+		this.parents = []; //array of parents of post
+		this.children = [];//array of children of post
+	}	
+
+	addChild(childPost){
+		this.children.push(childPost);
+	}
+
+	addParent(parentPost){
+		this.parents.push(parentPost);
+	}
+	
+	toString(){
+		return JSON.stringify(this);
+	}
+}

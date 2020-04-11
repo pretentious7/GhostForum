@@ -1,5 +1,6 @@
 //get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
 //so this code here gets path and makes new forum with that path in firebase.
+
 var pathname = window.location.pathname;
 console.log(String(pathname));
 //function to check if array contains another array
@@ -10,6 +11,8 @@ let ArrExpand = (arr, target) => target.forEach(v => {if(!arr.includes(v)) arr.u
 var db = firebase.firestore();
 //var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
 var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
+var currentForum = new Forum(idDoc);
+console.log('doesitwork', currentForum);
 var peeridno;
 var conner;
 var connection;
@@ -50,6 +53,7 @@ peer.on('connection', function(conn){
 peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	localStorage.setItem('peerid', id);
+	currentForum.metadata.myPeerId = id;
 	idDoc.GetData(function(data){
 		peeridno = data;
 		connection= peer.connect(peeridno.id);
