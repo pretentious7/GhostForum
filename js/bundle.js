@@ -13,11 +13,8 @@
 //    }
 //  }
 //}
-
-var GhostForum = {
-	Fora : []
-};
 			
+let IncludesForum = (forum) => GhostForum.fora.some(v => v.myPeerId === forum.myPeerId);
 
 class Forum {
 	constructor(signalDoc){
@@ -127,8 +124,22 @@ class FirebaseDoc {
 }
 
 	
-//get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
-//so this code here gets path and makes new forum with that path in firebase.
+//so this thing will run in the beginning and prep variables from GhostForum in localstorage.
+
+//should I write a callback func called ifdef?
+function ifNotNull(subject, trueCallBack, falseCallBack){
+	//calls callback if subject defined.
+	//returns true if subject defined, else false
+	//put this in a promise so I can chain then and make it useful.
+	if(subject !== null){	
+		trueCallBack;
+		return true;
+	}
+	else{
+		falseCallBack;
+		return false;
+	}
+}
 
 var pathname = window.location.pathname;
 console.log(String(pathname));
@@ -142,7 +153,7 @@ var db = firebase.firestore();
 var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
 var currentForum = new Forum(idDoc);
 console.log('doesitwork', currentForum);
-var peeridno;
+let peerId;
 var conner;
 var connection;
 console.log(idDoc);
@@ -151,13 +162,37 @@ console.log(idDoc);
 //this opens new peer for current peer
 //var peer = new Peer({key: 'lwjd5qra8257b9'});
 let peer;
-if(typeof localStorage.getItem("peerid") !== 'undefined'){
-	peer = new Peer(localStorage.getItem("peerid"));
-//	peer = new Peer();
+var forumName = String(pathname).substr(1);
+let GhostForum;
+if(localStorage.getItem('GhostForum') !== null){	
+	GhostForum = localStorage.getItem('GhostForum');
 }
 else{
+	GhostForum = {
+		fora : {}
+	}
+}
+if(GhostForum.fora.hasOwnProperty(forumName)){
+	currentForum = GhostForum.fora[forumName];
+	idDoc = currentForum.metaData.signalDoc; 
+	peerId = currentForum.metaData.myPeerId;
+	peer = new Peer(peerId);
+}
+else{
+	idDoc = new FirebaseDoc(forumName,"id_n", db);
+	GhostForum.fora[forumName] = new Forum(idDoc);
 	peer = new Peer();
 }
+//get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
+//so this code here gets path and makes new forum with that path in firebase.
+
+//if(typeof localStorage.getItem("peerid") !== 'undefined'){
+//	peer = new Peer(localStorage.getItem("peerid"));
+////	peer = new Peer();
+//}
+//else{
+//	peer = new Peer();
+//}
 
 console.log(peer);
 peer.on('connection', function(conn){
@@ -182,6 +217,7 @@ peer.on('connection', function(conn){
 peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	localStorage.setItem('peerid', id);
+	currentForum.metaData.myPeerId = id;
 	idDoc.GetData(function(data){
 		peeridno = data;
 		connection= peer.connect(peeridno.id);

@@ -13,10 +13,6 @@
 //    }
 //  }
 //}
-
-var GhostForum = {
-	fora : []
-};
 			
 let IncludesForum = (forum) => GhostForum.fora.some(v => v.myPeerId === forum.myPeerId);
 
