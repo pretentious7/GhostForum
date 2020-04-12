@@ -1,8 +1,10 @@
 //let initString = ['HOW|I|THIS|WORKING', 'CHADLEY|Hello World!|REPLIES 0|yoooo', 'ABHISHEK|TWO|REPLIES 18|asdfasdf', 'OJ|BOI|REPLIES 24|asdfhc', 'OJJJ|BBBBBBBBB|REPLIES 24|HHHHHHHH']
 
 let initString;
-if(localStorage.getItem('initString') !== null){
-		initString =localStorage.getItem('initString').split(',');
+var fname = String(window.location.pathname).substr(1);
+
+if(localStorage.getItem('initString'+fname) !== null){
+		initString =localStorage.getItem('initString'+fname).split(',');
 }
 else initString = ['Made with Love | By Ojasvin Kirpane & Abhishek Cherath | ha | ha'];
 //initString = ['How|I|this|work'];
@@ -129,7 +131,7 @@ function updateFeed() {
         }
     }
 	//stores for future instance in localstorage everythin
-	localStorage.setItem('initString', initStringObj.init);
+	localStorage.setItem('initString'+fname, initStringObj.init);
 }
 
 function dateCalc() {

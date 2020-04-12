@@ -33,6 +33,8 @@ peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	localStorage.setItem('peerid', id);
 	currentForum.metaData.myPeerId = id;
+	localStorage.setItem('peerId'+forumName, id);
+
 	idDoc.GetData(function(data){
 		peeridno = data;
 		connection= peer.connect(peeridno.id);

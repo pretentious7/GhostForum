@@ -152,8 +152,17 @@ var db = firebase.firestore();
 //var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
 var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
 var currentForum = new Forum(idDoc);
-console.log('doesitwork', currentForum);
+var forumName = String(pathname).substr(1);
+let peer;
 let peerId;
+if(localStorage.getItem('peerId'+forumName) !== null){
+	//peerId written on peer open!
+		peerId = localStorage.getItem('peerId'+forumName);
+		peer = new Peer(peerId);
+}
+else{
+	peer = new Peer();
+}
 var conner;
 var connection;
 console.log(idDoc);
@@ -161,8 +170,6 @@ console.log(idDoc);
 
 //this opens new peer for current peer
 //var peer = new Peer({key: 'lwjd5qra8257b9'});
-let peer;
-var forumName = String(pathname).substr(1);
 let GhostForum;
 if(localStorage.getItem('GhostForum') !== null){	
 	GhostForum = localStorage.getItem('GhostForum');
@@ -173,15 +180,15 @@ else{
 	}
 }
 if(GhostForum.fora.hasOwnProperty(forumName)){
-	currentForum = GhostForum.fora[forumName];
-	idDoc = currentForum.metaData.signalDoc; 
-	peerId = currentForum.metaData.myPeerId;
-	peer = new Peer(peerId);
+//	currentForum = GhostForum.fora[forumName];
+//	idDoc = currentForum.metaData.signalDoc; 
+//	peerId = currentForum.metaData.myPeerId;
+//	peer = new Peer(peerId);
 }
 else{
 	idDoc = new FirebaseDoc(forumName,"id_n", db);
 	GhostForum.fora[forumName] = new Forum(idDoc);
-	peer = new Peer();
+//	peer = new Peer(peerId);
 }
 //get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
 //so this code here gets path and makes new forum with that path in firebase.
@@ -218,6 +225,8 @@ peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	localStorage.setItem('peerid', id);
 	currentForum.metaData.myPeerId = id;
+	localStorage.setItem('peerId'+forumName, id);
+
 	idDoc.GetData(function(data){
 		peeridno = data;
 		connection= peer.connect(peeridno.id);
