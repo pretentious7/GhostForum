@@ -1,17 +1,6 @@
-@font-face {
-    font-family: Graphik-Light;
-    src: url("./R/Graphik-Light.otf") format("opentype");
-}
-@font-face {
-    font-family: Graphik-Bold;
-    src: url("./R/Graphik-Bold.otf") format("opentype");
-}
-@font-face {
-    font-family: Graphik-Regular;
-    src: url("./R/Graphik-Regular.otf") format("opentype");
-}
+
 body{
-    font-family: Graphik-Regular;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5em;
     margin: none;
     padding: none;
