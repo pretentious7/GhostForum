@@ -48,7 +48,7 @@ function generateDOM() {
 
 function receiveText() {
     for (var i = 0; i < initStringObj.init.length; i++) {
-        receiveShit[i] = initStringObj.init[i].split("|")
+        receiveShit[i] = String(initStringObj.init[i]).split("|")
         for (j = 0; j < 3; j++) {
             //localStorage.setItem('pos' + eval(4 * i + j), JSON.stringify(receiveShit[i][j]))
             localStorage.setItem('pos' + eval(3 * i + j), receiveShit[i][j])
