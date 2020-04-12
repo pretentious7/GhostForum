@@ -87,6 +87,20 @@ function pushPost() {
 }
 
 function storePost() {
+
+    var a = document.createElement("FORM")
+    a.setAttribute("id", "username")
+    a.setAttribute("onsubmit", "return false")
+    document.body.appendChild(a)
+
+    var b = document.createElement("INPUT")
+    b.setAttribute("type", "text")
+    b.setAttribute("value", "Your Username")
+    b.setAttribute("id", "usernameInput");
+    document.body.appendChild(b)
+
+    b.setAttribute("style", "margin-left: 25%; padding: 1em; width: 30%; margin-bottom: 1em; border:none; border-bottom: 1px solid black; background-color: #FFFDF5; height: 13px");
+
     localStorage.setItem('response', 'Hello')
     var input = document.getElementById('userInput').value;
     input2 = input + '|REPLIES 0' + '|' + dateCalc()
