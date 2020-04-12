@@ -32,10 +32,20 @@ let peerId;
 if(localStorage.getItem('peerId'+forumName) !== null){
 	//peerId written on peer open!
 		peerId = localStorage.getItem('peerId'+forumName);
-		peer = new Peer(peerId);
+		peer = new Peer(peerId,{
+		  config: {'iceServers': [
+		    { urls: 'stun:stun.l.google.com:19302' },
+		    { urls: 'turn:104.154.36.60:3478', username: 'ghostTurner', credential: 'tisbutascratch'}
+		  ], 'sdpSemantics': 'unified-plan'} 
+		});
 }
 else{
-	peer = new Peer();
+	peer = new Peer([] , {
+		  config: {'iceServers': [
+		    { urls: 'stun:stun.l.google.com:19302' },
+		    { urls: 'turn:104.154.36.60:3478', username: 'ghostTurner', credential: 'tisbutascratch'}
+		  ], 'sdpSemantics': 'unified-plan'} 
+		});
 }
 var conner;
 var connection;

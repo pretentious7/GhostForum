@@ -4,7 +4,8 @@ let initString;
 var fname = String(window.location.pathname).substr(1);
 
 if(localStorage.getItem('initString'+fname) !== null){
-		initString =localStorage.getItem('initString'+fname).split(',');
+		//initString =localStorage.getItem('initString'+fname).split(',');
+		initString = JSON.parse(localStorage.getItem('initString'+fname));
 }
 else initString = ['Made with Love | By Ojasvin Kirpane & Abhishek Cherath | ha | ha'];
 //initString = ['How|I|this|work'];
@@ -165,7 +166,7 @@ function updateFeed() {
         }
     }
     //stores for future instance in localstorage everythin
-    localStorage.setItem('initString'+fname, initStringObj.init);
+    localStorage.setItem('initString'+fname, JSON.stringify(initStringObj.init));
 }
 
 function dateCalc() {
