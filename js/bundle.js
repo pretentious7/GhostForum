@@ -200,6 +200,29 @@ else{
 	GhostForum.fora[forumName] = new Forum(idDoc);
 //	peer = new Peer(peerId);
 }
+
+//conner.on(close) if connection shut indicator on
+//connection.on(close) if conner shut indicator on
+//and in both connection.ons I need an indicate() func.
+
+
+function ConnectionNotifRefresh(){
+	var connNotif = document.getElementById('imgConnectNotif');
+	connNotif.setAttribute("src","./R/Refresh_Icon.svg");
+	connNotif.setAttribute("onClick","window.location.reload();");
+}
+
+function ConnectionNotifOk(){
+	var connNotif = document.getElementById('imgConnectNotif');
+	if(typeof conner === 'undefined' && connection.open){
+		connNotif.setAttribute("src","./R/Connected_Icon.svg");
+		connNotif.setAttribute("onClick","");
+	}
+	else if(conner.open && connection.open){
+		connNotif.setAttribute("src","./R/Connected_Icon.svg");
+		connNotif.setAttribute("onClick","");
+	}
+}
 //get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
 //so this code here gets path and makes new forum with that path in firebase.
 
@@ -215,6 +238,7 @@ console.log(peer);
 peer.on('connection', function(conn){
 	conner = conn;
 	conn.on('open', function() {
+		ConnectionNotifOk();
 		console.log('communism');
 		//conn.send('hello');
 		conn.on('data', function(data){
@@ -227,6 +251,8 @@ peer.on('connection', function(conn){
 				console.log(initStringObj.init);
 			}
 		});
+		//sets button to refresh when conn closes	
+		conn.on('close', () => {ConnectionNotifRefresh()});
 		
 	});
 	
@@ -243,6 +269,7 @@ peer.on('open', function(id){
 		console.log(connection);
 		connection.on('open', function(){
 			console.log('thisisboi');
+			ConnectionNotifOk(); //changes button to green tick
 			connection.on('data', function(data){
 				console.log('Received',data);
 				if(!ArrIncludes(initStringObj.init, data)){
@@ -252,6 +279,8 @@ peer.on('open', function(id){
 					console.log(initStringObj.init);
 				}
 			});
+			//sets button to refresh when connection closes.
+			connection.on('close', () => {ConnectionNotifRefresh()});
 		});
 
 		idDoc.SetData({id : id});
@@ -259,3 +288,7 @@ peer.on('open', function(id){
 	
 });
 
+
+//conner.on(close) if connection shut indicator on
+//connection.on(close) if conner shut indicator on
+//and in both connection.ons I need an indicate() func.

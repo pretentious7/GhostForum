@@ -7,7 +7,8 @@ if(localStorage.getItem('initString'+fname) !== null){
 		//initString =localStorage.getItem('initString'+fname).split(',');
 		initString = JSON.parse(localStorage.getItem('initString'+fname));
 }
-else initString = ['Made with Love | By Ojasvin Kirpane & Abhishek Cherath | ha | ha'];
+else initString = ["Made with Love | By Ojasvin Kirpane & Abhishek Cherath, \
+	intro at https://youtu.be/hkPTflBBhXE | Do Good" ];
 //initString = ['How|I|this|work'];
 
 console.log(initString);
