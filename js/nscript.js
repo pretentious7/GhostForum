@@ -15,6 +15,7 @@ peer.on('connection', function(conn){
 	conn.on('open', function() {
 		ConnectionNotifOk();
 		console.log('communism');
+		sendMessage();//sends as soon as connected
 		//conn.send('hello');
 		conn.on('data', function(data){
 			console.log('communism part 2');
@@ -45,6 +46,7 @@ peer.on('open', function(id){
 		connection.on('open', function(){
 			console.log('thisisboi');
 			ConnectionNotifOk(); //changes button to green tick
+			sendMessage(); //sends as soon as connected
 			connection.on('data', function(data){
 				console.log('Received',data);
 				if(!ArrIncludes(initStringObj.init, data)){
