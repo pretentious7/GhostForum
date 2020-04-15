@@ -245,6 +245,7 @@ peer.on('connection', function(conn){
 		conn.on('data', function(data){
 			console.log('communism part 2');
 			console.log('Received', data);
+			data = JSON.parse(data);
 			if(!ArrIncludes(initStringObj.init, data)){
 				//initStringProxy.init = data;
 				ArrExpand(initStringObj.init, data); 
@@ -273,6 +274,7 @@ peer.on('open', function(id){
 			ConnectionNotifOk(); //changes button to green tick
 			sendMessage(); //sends as soon as connected
 			connection.on('data', function(data){
+				data = JSON.parse(data);
 				console.log('Received',data);
 				if(!ArrIncludes(initStringObj.init, data)){
 					//initStringProxy.init = data;

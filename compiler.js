@@ -181,10 +181,10 @@ function dateCalc() {
 
 function sendMessage() {
     if (typeof conner !== 'undefined') {
-        conner.send(initStringObj.init);
+        conner.send(JSON.stringify(initStringObj.init));
     }
     if (typeof connection !== 'undefined') {
-        connection.send(initStringObj.init);
+        connection.send(JSON.stringify(initStringObj.init));
     }
 
 }
