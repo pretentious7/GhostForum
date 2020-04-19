@@ -24,8 +24,8 @@ let ArrExpand = (arr, target) => target.forEach(v => {if(!arr.includes(v)) arr.u
 
 var db = firebase.firestore();
 //var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
-var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
-var currentForum = new Forum(idDoc);
+//var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
+//var currentForum = new Forum(idDoc);
 var forumName = String(pathname).substr(1);
 let peer;
 let peerId;
@@ -49,7 +49,6 @@ else{
 }
 var conner;
 var connection;
-console.log(idDoc);
 //so now get it to pull previous peer
 
 //this opens new peer for current peer

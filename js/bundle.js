@@ -79,11 +79,11 @@ class Post{
 //file written with implicitly assumed db somewhere in myApp of form db = firebase.firestore()
 
 class FirebaseDoc {
-	constructor(docId,CollectionId,db ){
+	constructor(CollectionId,docId,db ){
 		this.docId = docId;
 		this.CollectionId = CollectionId;
 		this.db = db;
-		this.docad = db.collection(docId).doc(CollectionId);//try renaming docad here
+		this.docad = db.collection(CollectionId).doc(docId);//try renaming docad here
 		this.docad.get().then(doc => {
 			if (doc.exists){}
 			else{
@@ -104,7 +104,7 @@ class FirebaseDoc {
 		var data;
 		this.docad.get().then(function(doc) {
 		    if (doc.exists) {
-			console.log("Document data:", doc.data());
+			//console.log("Document data:", doc.data());
 			callback(doc.data());
 			return
 		    } else {
@@ -120,6 +120,18 @@ class FirebaseDoc {
 		//should this be in a kinda promise structure?
 		this.docad.set(data); // for this thing, it's {id: peer_id} 
 		
+	}
+	
+	UpdateData(data){
+	
+		return this.docad.update(data)
+			.then(function() {
+				console.log("Document successfully updated!");
+			})
+			.catch(function(error) {
+				// The document probably doesn't exist.
+				console.error("Error updating document: ", error);
+			})
 	}
 }
 
@@ -150,8 +162,8 @@ let ArrExpand = (arr, target) => target.forEach(v => {if(!arr.includes(v)) arr.u
 
 var db = firebase.firestore();
 //var idDoc = new FirebaseDoc("peerjs_ids", "id_n", db);
-var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
-var currentForum = new Forum(idDoc);
+//var idDoc = new FirebaseDoc(String(pathname),"id_n", db);
+//var currentForum = new Forum(idDoc);
 var forumName = String(pathname).substr(1);
 let peer;
 let peerId;
@@ -175,7 +187,6 @@ else{
 }
 var conner;
 var connection;
-console.log(idDoc);
 //so now get it to pull previous peer
 
 //this opens new peer for current peer
@@ -223,6 +234,63 @@ function ConnectionNotifOk(){
 		connNotif.setAttribute("onClick","");
 	}
 }
+var message = 'amit';  
+var key= 'abc123XYZ';
+var encrypted = CryptoJS.AES.encrypt(message, key);  
+
+function EncryptForum(forum,key){
+	return CryptoJS.AES.encrypt(forum,key).toString();
+}
+
+function DecryptForum(forum,key){
+	console.log(CryptoJS.AES.decrypt(forum,key).toString(CryptoJS.enc.Utf8));
+	return CryptoJS.AES.decrypt(forum,key).toString(CryptoJS.enc.Utf8);
+}
+
+
+function stringToHash(string) { 
+	//have to learn how this works.
+
+	var hash = 0; 
+
+	if (string.length == 0) return hash; 
+
+	for (i = 0; i < string.length; i++) { 
+		char = string.charCodeAt(i); 
+		hash = ((hash << 5) - hash) + char; 
+		hash = hash & hash; 
+	} 
+
+	return hash; 
+} 
+
+console.log('forumhash', stringToHash(forumName));
+var forumHash = String(stringToHash(forumName));
+//so this will make new thing called backup in the document
+//
+//when connect with no peers call backup from doc
+//
+//when disconnect to no peers set backup.
+//
+//
+
+var BackupDoc = new FirebaseDoc(forumHash,"backup", db);
+
+function BackupForum(forum){
+	if((typeof conner === 'undefined' && !connection.open) || (!conner.open && !connection.open)){
+		console.log('forum', forum);
+		BackupDoc.UpdateData({backup : EncryptForum(forum,forumName)});
+	}
+	else console.log('not updated');
+}
+
+function GetBackupForum(callback){
+	BackupDoc.GetData((data)=>{
+		console.log('kissmemylove', DecryptForum(data.backup, forumName));
+		callback(DecryptForum(data.backup, forumName));
+		return;
+	});
+}
 //get peer 1 from signalling serv, actually fuck firebase. im just going to hardcode a peer 1.
 //so this code here gets path and makes new forum with that path in firebase.
 
@@ -254,7 +322,11 @@ peer.on('connection', function(conn){
 			}
 		});
 		//sets button to refresh when conn closes	
-		conn.on('close', () => {ConnectionNotifRefresh()});
+		conn.on('close', () => {
+			//new line to check if backupforum can work this way
+			BackupForum(JSON.stringify(initStringObj.init));
+			ConnectionNotifRefresh()
+		});
 		
 	});
 	
@@ -262,7 +334,7 @@ peer.on('connection', function(conn){
 peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	localStorage.setItem('peerid', id);
-	currentForum.metaData.myPeerId = id;
+	//currentForum.metaData.myPeerId = id;
 	localStorage.setItem('peerId'+forumName, id);
 
 	idDoc.GetData(function(data){
@@ -284,7 +356,11 @@ peer.on('open', function(id){
 				}
 			});
 			//sets button to refresh when connection closes.
-			connection.on('close', () => {ConnectionNotifRefresh()});
+			connection.on('close', () => {
+				//new line to check if backupforum can work this way
+				BackupForum(JSON.stringify(initStringObj.init));
+				ConnectionNotifRefresh()
+			});
 		});
 
 		idDoc.SetData({id : id});
@@ -292,6 +368,23 @@ peer.on('open', function(id){
 	
 });
 
+peer.on('error',() => {
+	if(typeof conner !== 'undefined' && !conner.open && !connection.open){
+		GetBackupForum((data) => {
+			data = JSON.parse(data);
+			console.log('decryptedforum', data)
+			if(!ArrIncludes(initStringObj.init, data)){
+				//initStringProxy.init = data;
+				ArrExpand(initStringObj.init, data); 
+				initStringProxy.init = initStringObj.init;
+				console.log(initStringObj.init);
+			}
+			
+		});
+		//console.log('iloveyoujean',forumfrombackup);
+		//window.location.reload();
+	}
+});
 
 //conner.on(close) if connection shut indicator on
 //connection.on(close) if conner shut indicator on

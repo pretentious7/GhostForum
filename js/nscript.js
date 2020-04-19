@@ -29,7 +29,11 @@ peer.on('connection', function(conn){
 			}
 		});
 		//sets button to refresh when conn closes	
-		conn.on('close', () => {ConnectionNotifRefresh()});
+		conn.on('close', () => {
+			//new line to check if backupforum can work this way
+			BackupForum(JSON.stringify(initStringObj.init));
+			ConnectionNotifRefresh()
+		});
 		
 	});
 	
@@ -37,7 +41,7 @@ peer.on('connection', function(conn){
 peer.on('open', function(id){
 	console.log('My peer ID is: ' + id);
 	localStorage.setItem('peerid', id);
-	currentForum.metaData.myPeerId = id;
+	//currentForum.metaData.myPeerId = id;
 	localStorage.setItem('peerId'+forumName, id);
 
 	idDoc.GetData(function(data){
@@ -59,7 +63,11 @@ peer.on('open', function(id){
 				}
 			});
 			//sets button to refresh when connection closes.
-			connection.on('close', () => {ConnectionNotifRefresh()});
+			connection.on('close', () => {
+				//new line to check if backupforum can work this way
+				BackupForum(JSON.stringify(initStringObj.init));
+				ConnectionNotifRefresh()
+			});
 		});
 
 		idDoc.SetData({id : id});
@@ -67,6 +75,23 @@ peer.on('open', function(id){
 	
 });
 
+peer.on('error',() => {
+	if(typeof conner !== 'undefined' && !conner.open && !connection.open){
+		GetBackupForum((data) => {
+			data = JSON.parse(data);
+			console.log('decryptedforum', data)
+			if(!ArrIncludes(initStringObj.init, data)){
+				//initStringProxy.init = data;
+				ArrExpand(initStringObj.init, data); 
+				initStringProxy.init = initStringObj.init;
+				console.log(initStringObj.init);
+			}
+			
+		});
+		//console.log('iloveyoujean',forumfrombackup);
+		//window.location.reload();
+	}
+});
 
 //conner.on(close) if connection shut indicator on
 //connection.on(close) if conner shut indicator on

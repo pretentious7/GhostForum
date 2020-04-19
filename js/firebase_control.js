@@ -1,11 +1,11 @@
 //file written with implicitly assumed db somewhere in myApp of form db = firebase.firestore()
 
 class FirebaseDoc {
-	constructor(docId,CollectionId,db ){
+	constructor(CollectionId,docId,db ){
 		this.docId = docId;
 		this.CollectionId = CollectionId;
 		this.db = db;
-		this.docad = db.collection(docId).doc(CollectionId);//try renaming docad here
+		this.docad = db.collection(CollectionId).doc(docId);//try renaming docad here
 		this.docad.get().then(doc => {
 			if (doc.exists){}
 			else{
@@ -26,7 +26,7 @@ class FirebaseDoc {
 		var data;
 		this.docad.get().then(function(doc) {
 		    if (doc.exists) {
-			console.log("Document data:", doc.data());
+			//console.log("Document data:", doc.data());
 			callback(doc.data());
 			return
 		    } else {
@@ -42,6 +42,18 @@ class FirebaseDoc {
 		//should this be in a kinda promise structure?
 		this.docad.set(data); // for this thing, it's {id: peer_id} 
 		
+	}
+	
+	UpdateData(data){
+	
+		return this.docad.update(data)
+			.then(function() {
+				console.log("Document successfully updated!");
+			})
+			.catch(function(error) {
+				// The document probably doesn't exist.
+				console.error("Error updating document: ", error);
+			})
 	}
 }
 
